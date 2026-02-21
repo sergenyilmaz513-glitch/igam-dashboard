@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import './globals.css'
-import Sidebar from '@/components/Sidebar'
-import Header from '@/components/Header'
+
+const Sidebar = dynamic(() => import('@/components/Sidebar'), { ssr: false })
+const Header = dynamic(() => import('@/components/Header'), { ssr: false })
 
 export const metadata: Metadata = {
   title: 'İGAM Dashboard',
