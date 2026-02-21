@@ -9,17 +9,25 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: { DEFAULT: '#F5F3EE', dark: '#EDE9E0' },
+        dark: {
+          DEFAULT: '#0a0a1a',
+          100: '#141428',
+          200: '#1a1a35',
+          300: '#222244',
+          400: '#2a2a55',
+        },
         gold: { DEFAULT: '#C9A84C', light: '#D4BA6A', dark: '#B89A3F' },
-        text: { primary: '#2D2A26', secondary: '#8A8480' },
         status: {
           todo: '#FBBF24',
-          progress: '#60A5FA',
-          done: '#34D399',
-          urgent: '#F87171',
+          progress: '#3B82F6',
+          done: '#22C55E',
+          urgent: '#EF4444',
         },
-        card: 'rgba(255,255,255,0.65)',
-        border: 'rgba(0,0,0,0.06)',
+        priority: {
+          high: '#EF4444',
+          medium: '#F59E0B',
+          low: '#22C55E',
+        },
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],

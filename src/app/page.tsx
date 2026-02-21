@@ -49,10 +49,10 @@ export default function Overview() {
   const urgentCount = tasks.filter(t => t.priority === 'high' && t.status !== 'done').length
 
   const stats = [
-    { label: 'Yapılacak', value: todoCount, color: '#FBBF24', bg: 'bg-yellow-50' },
-    { label: 'Devam Ediyor', value: progressCount, color: '#60A5FA', bg: 'bg-blue-50' },
-    { label: 'Tamamlanan', value: doneCount, color: '#34D399', bg: 'bg-green-50' },
-    { label: 'Acil', value: urgentCount, color: '#F87171', bg: 'bg-red-50' },
+    { label: 'Yapılacak', value: todoCount, color: '#FBBF24', icon: '📋' },
+    { label: 'Devam Ediyor', value: progressCount, color: '#3B82F6', icon: '🔄' },
+    { label: 'Tamamlanan', value: doneCount, color: '#22C55E', icon: '✓' },
+    { label: 'Acil', value: urgentCount, color: '#EF4444', icon: '!' },
   ]
 
   const totalTasks = tasks.length
@@ -63,53 +63,63 @@ export default function Overview() {
   }
 
   const statusLabel: Record<string, string> = { 'todo': 'Yapılacak', 'in-progress': 'Devam Ediyor', 'done': 'Tamamlandı' }
-  const statusColor: Record<string, string> = { 'todo': 'bg-status-todo/20 text-yellow-700', 'in-progress': 'bg-status-progress/20 text-blue-700', 'done': 'bg-status-done/20 text-green-700' }
+  const statusColor: Record<string, string> = { 'todo': 'bg-status-todo/20 text-status-todo', 'in-progress': 'bg-status-progress/20 text-status-progress', 'done': 'bg-status-done/20 text-status-done' }
 
   return (
     <div className="space-y-6">
+      {/* Page Header */}
       <div>
-        <h2 className="font-outfit font-bold text-2xl text-text-primary">Genel Bakış</h2>
-        <p className="text-sm text-text-secondary mt-1">Takım performansı ve güncel durum</p>
+        <h2 className="font-outfit font-bold text-2xl text-white">Genel Bakış</h2>
+        <p className="text-sm text-white/60 mt-1">Takım performansı ve güncel durum</p>
       </div>
 
+      {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s) => (
-          <div key={s.label} className="glass-card p-5 hover:shadow-md transition-shadow duration-300">
+          <div key={s.label} className="glass p-5 hover:bg-white/[0.08] transition-all duration-300 group">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-text-secondary">{s.label}</p>
+                <p className="text-sm text-[#9CA3AF]">{s.label}</p>
                 <p className="text-3xl font-outfit font-bold mt-1" style={{ color: s.color }}>{s.value}</p>
               </div>
-              <div className={`w-12 h-12 rounded-2xl ${s.bg} flex items-center justify-center`}>
-                <div className="w-4 h-4 rounded-full" style={{ background: s.color }} />
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center text-lg transition-transform duration-300 group-hover:scale-110"
+                style={{ background: `${s.color}15`, border: `1px solid ${s.color}30` }}
+              >
+                <span style={{ color: s.color }}>{s.icon}</span>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="glass-card p-5">
-        <h3 className="font-outfit font-semibold text-sm mb-3">Haftalık İlerleme</h3>
+      {/* Haftalik Ilerleme */}
+      <div className="glass p-5">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-outfit font-semibold text-sm text-white">Haftalık İlerleme</h3>
+          <span className="text-sm font-semibold text-gold">{weeklyProgress}%</span>
+        </div>
         <div className="flex items-center gap-4">
-          <div className="flex-1 h-4 bg-cream-dark rounded-full overflow-hidden">
+          <div className="flex-1 h-3 bg-white/5 rounded-full overflow-hidden border border-white/[0.06]">
             <div
               className="h-full gold-gradient rounded-full transition-all duration-700"
               style={{ width: `${weeklyProgress}%` }}
             />
           </div>
-          <span className="text-sm font-semibold text-gold">{weeklyProgress}%</span>
         </div>
-        <p className="text-xs text-text-secondary mt-2">{doneCount} / {totalTasks} görev tamamlandı</p>
+        <p className="text-xs text-[#9CA3AF] mt-2">{doneCount} / {totalTasks} görev tamamlandı</p>
       </div>
 
+      {/* Son Gorevler & Yaklasan Etkinlikler Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="glass-card p-5">
-          <h3 className="font-outfit font-semibold text-sm mb-4">Son Görevler</h3>
-          <div className="space-y-3">
+        {/* Son Gorevler */}
+        <div className="glass p-5">
+          <h3 className="font-outfit font-semibold text-sm text-white mb-4">Son Görevler</h3>
+          <div className="space-y-1">
             {tasks.slice(0, 6).map((task) => {
               const member = getMember(task.assignee)
               return (
-                <div key={task.id} className="flex items-center justify-between py-2 border-b border-black/[0.04] last:border-0">
+                <div key={task.id} className="flex items-center justify-between py-2.5 px-2 rounded-xl hover:bg-white/[0.03] transition-colors border-b border-white/[0.06] last:border-0">
                   <div className="flex items-center gap-3 min-w-0">
                     {member && (
                       <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs shrink-0" style={{ background: member.color }}>
@@ -117,8 +127,8 @@ export default function Overview() {
                       </div>
                     )}
                     <div className="min-w-0">
-                      <p className="text-sm text-text-primary truncate">{task.title}</p>
-                      <p className="text-[10px] text-text-secondary">{member?.name}</p>
+                      <p className="text-sm text-white truncate">{task.title}</p>
+                      <p className="text-[10px] text-white/40">{member?.name}</p>
                     </div>
                   </div>
                   <span className={`status-badge shrink-0 ml-2 ${statusColor[task.status]}`}>
@@ -127,30 +137,31 @@ export default function Overview() {
                 </div>
               )
             })}
-            {tasks.length === 0 && <p className="text-sm text-text-secondary">Henüz görev yok</p>}
+            {tasks.length === 0 && <p className="text-sm text-[#9CA3AF]">Henüz görev yok</p>}
           </div>
         </div>
 
-        <div className="glass-card p-5">
-          <h3 className="font-outfit font-semibold text-sm mb-4">Yaklaşan Etkinlikler</h3>
-          <div className="space-y-3">
+        {/* Yaklasan Etkinlikler */}
+        <div className="glass p-5">
+          <h3 className="font-outfit font-semibold text-sm text-white mb-4">Yaklaşan Etkinlikler</h3>
+          <div className="space-y-1">
             {events.map((ev) => {
               const dayDiff = Math.ceil((new Date(ev.event_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
               const dayLabel = dayDiff === 0 ? 'Bugün' : dayDiff === 1 ? 'Yarın' : `${dayDiff} gün`
               return (
-                <div key={ev.id} className="flex items-center justify-between py-2 border-b border-black/[0.04] last:border-0">
+                <div key={ev.id} className="flex items-center justify-between py-2.5 px-2 rounded-xl hover:bg-white/[0.03] transition-colors border-b border-white/[0.06] last:border-0">
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 rounded-full shrink-0" style={{ background: ev.color || '#C9A84C' }} />
                     <div>
-                      <p className="text-sm text-text-primary">{ev.title}</p>
-                      <p className="text-[10px] text-text-secondary">{ev.type} · {ev.event_time}</p>
+                      <p className="text-sm text-white">{ev.title}</p>
+                      <p className="text-[10px] text-white/40">{ev.type} · {ev.event_time}</p>
                     </div>
                   </div>
                   <span className="text-xs text-gold font-medium shrink-0">{dayLabel}</span>
                 </div>
               )
             })}
-            {events.length === 0 && <p className="text-sm text-text-secondary">Yaklaşan etkinlik yok</p>}
+            {events.length === 0 && <p className="text-sm text-[#9CA3AF]">Yaklaşan etkinlik yok</p>}
           </div>
         </div>
       </div>

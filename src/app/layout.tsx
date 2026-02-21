@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import './globals.css'
 
-const Sidebar = dynamic(() => import('@/components/Sidebar'), { ssr: false })
+const NavBar = dynamic(() => import('@/components/Sidebar'), { ssr: false })
 const Header = dynamic(() => import('@/components/Header'), { ssr: false })
 
 export const metadata: Metadata = {
@@ -13,16 +13,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr">
-      <body className="bg-cream min-h-screen">
-        <div className="flex h-screen overflow-hidden">
-          <Sidebar />
-          <div className="flex-1 flex flex-col overflow-hidden min-w-0">
-            <Header />
-            <main className="flex-1 overflow-y-auto p-4 lg:p-6 pt-16 lg:pt-6">
-              {children}
-            </main>
-          </div>
-        </div>
+      <body className="min-h-screen">
+        <NavBar />
+        <Header />
+        <main className="px-4 lg:px-6 pb-6">
+          {children}
+        </main>
       </body>
     </html>
   )

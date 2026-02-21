@@ -53,13 +53,12 @@ export default function Header() {
   const notifCount = events.length + tasks.length
 
   return (
-    <header className="h-16 bg-white/65 backdrop-blur-sm border-b border-black/[0.06] px-6 flex items-center justify-between shrink-0">
-      <div />
-      <div className="flex items-center gap-4">
-        <span className="text-sm text-text-secondary">{dateStr} · {timeStr}</span>
+    <div className="flex items-center justify-between px-6 py-3">
+      <span className="text-sm text-white/40">{dateStr} · {timeStr}</span>
+      <div className="flex items-center gap-3">
         <div className="flex -space-x-2">
           {team.slice(0, 4).map((m) => (
-            <div key={m.id} className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-sm" style={{ background: m.color }}>
+            <div key={m.id} className="w-8 h-8 rounded-full border-2 border-dark flex items-center justify-center text-sm" style={{ background: m.color }}>
               {m.avatar}
             </div>
           ))}
@@ -67,26 +66,26 @@ export default function Header() {
         <div className="relative" ref={notifRef}>
           <button
             onClick={() => setShowNotif(!showNotif)}
-            className="relative w-10 h-10 rounded-xl bg-cream-dark flex items-center justify-center hover:bg-black/[0.06] transition-colors"
+            className="relative w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors"
           >
-            <span className="text-lg">🔔</span>
+            <span className="text-base">🔔</span>
             {notifCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-status-urgent text-white text-[10px] rounded-full flex items-center justify-center font-bold">
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-status-urgent text-white text-[9px] rounded-full flex items-center justify-center font-bold">
                 {notifCount}
               </span>
             )}
           </button>
           {showNotif && (
-            <div className="absolute right-0 top-12 w-80 glass-card shadow-lg p-4 z-50">
-              <h3 className="font-outfit font-semibold text-sm mb-3">Bildirimler</h3>
+            <div className="absolute right-0 top-12 w-80 glass-strong shadow-2xl p-4 z-50">
+              <h3 className="font-outfit font-semibold text-sm mb-3 text-white">Bildirimler</h3>
               {events.length > 0 && (
                 <div className="mb-3">
-                  <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-2">Yaklaşan Etkinlikler</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-wider mb-2">Yaklaşan Etkinlikler</p>
                   {events.map((ev) => (
-                    <div key={ev.id} className="flex items-center justify-between py-1.5 border-b border-black/[0.04] last:border-0">
+                    <div key={ev.id} className="flex items-center justify-between py-1.5 border-b border-white/5 last:border-0">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full" style={{ background: ev.color || '#C9A84C' }} />
-                        <span className="text-xs text-text-primary">{ev.title}</span>
+                        <span className="text-xs text-white/80">{ev.title}</span>
                       </div>
                       <span className="text-[10px] text-gold font-medium">{daysUntil(ev.event_date)}</span>
                     </div>
@@ -95,10 +94,10 @@ export default function Header() {
               )}
               {tasks.length > 0 && (
                 <div>
-                  <p className="text-[10px] text-text-secondary uppercase tracking-wider mb-2">Bekleyen Görevler</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-wider mb-2">Bekleyen Görevler</p>
                   {tasks.map((t) => (
-                    <div key={t.id} className="flex items-center justify-between py-1.5 border-b border-black/[0.04] last:border-0">
-                      <span className="text-xs text-text-primary truncate mr-2">{t.title}</span>
+                    <div key={t.id} className="flex items-center justify-between py-1.5 border-b border-white/5 last:border-0">
+                      <span className="text-xs text-white/80 truncate mr-2">{t.title}</span>
                       {t.due_date && (
                         <span className="text-[10px] text-status-urgent font-medium shrink-0">{daysUntil(t.due_date)}</span>
                       )}
@@ -106,11 +105,11 @@ export default function Header() {
                   ))}
                 </div>
               )}
-              {notifCount === 0 && <p className="text-xs text-text-secondary">Bildirim yok</p>}
+              {notifCount === 0 && <p className="text-xs text-white/40">Bildirim yok</p>}
             </div>
           )}
         </div>
       </div>
-    </header>
+    </div>
   )
 }
